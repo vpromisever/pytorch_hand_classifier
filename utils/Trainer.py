@@ -156,8 +156,11 @@ class Trainer(object):
         for step, (data, label) in enumerate(self.val_data):
 
             # val model
-            inputs = Variable(data, volatile=True)
-            target = Variable(label.type(t.LongTensor), volatile=True)
+#             inputs = Variable(data, volatile=True)
+#             target = Variable(label.type(t.LongTensor), volatile=True)
+            with t.no_grad():
+                inputs = data
+                target = label.type(t.LongTensor)
             if len(self.params.gpus) > 0:
                 inputs = inputs.cuda()
                 target = target.cuda()
